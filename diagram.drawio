@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0" version="29.5.3">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0" version="29.5.5">
   <diagram name="Page-1" id="nIPiPDzpWnystqUukfrk">
-    <mxGraphModel dx="1733" dy="1235" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2609" dy="1533" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -30,20 +30,13 @@
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="425" y="440" />
-              <mxPoint x="140" y="440" />
+              <mxPoint x="80" y="440" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="LPWrPx7DY98C0RRhd-94-21" edge="1" parent="1" source="LPWrPx7DY98C0RRhd-94-23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="LPWrPx7DY98C0RRhd-94-20">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="730" y="440" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="sVrufyg7s0PkvheQMbxB-12" connectable="0" parent="LPWrPx7DY98C0RRhd-94-21" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="send profile information" vertex="1">
-          <mxGeometry relative="1" x="-0.2912" y="-5" as="geometry">
-            <mxPoint x="107" y="-5" as="offset" />
+        <mxCell id="sVrufyg7s0PkvheQMbxB-21" connectable="0" parent="LPWrPx7DY98C0RRhd-94-15" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="If need to search for channels" vertex="1">
+          <mxGeometry relative="1" x="0.3193" y="-2" as="geometry">
+            <mxPoint x="46" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-30" edge="1" parent="1" source="LPWrPx7DY98C0RRhd-94-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;curved=0;" target="LPWrPx7DY98C0RRhd-94-29">
@@ -59,65 +52,85 @@
             <mxPoint y="16" as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="sVrufyg7s0PkvheQMbxB-17" edge="1" parent="1" source="LPWrPx7DY98C0RRhd-94-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="LPWrPx7DY98C0RRhd-94-17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="460" />
+              <mxPoint x="425" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sVrufyg7s0PkvheQMbxB-22" connectable="0" parent="sVrufyg7s0PkvheQMbxB-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="If need to transcript videos" vertex="1">
+          <mxGeometry relative="1" x="0.2515" y="1" as="geometry">
+            <mxPoint x="-1" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sVrufyg7s0PkvheQMbxB-19" edge="1" parent="1" source="LPWrPx7DY98C0RRhd-94-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="LPWrPx7DY98C0RRhd-94-20">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="440" />
+              <mxPoint x="720" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sVrufyg7s0PkvheQMbxB-24" connectable="0" parent="sVrufyg7s0PkvheQMbxB-19" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="If need to rank videos" vertex="1">
+          <mxGeometry relative="1" x="0.4011" y="2" as="geometry">
+            <mxPoint x="-47" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;div&gt;&lt;b&gt;🧠 Orchestrator Agent&lt;/b&gt;&lt;br&gt;(LangGraph StateGraph)&lt;br&gt;&lt;br&gt;• Parses user intent&lt;br&gt;• Plans sub-agent tasks&lt;br&gt;• Manages state &amp;amp; flow&lt;br&gt;• Routes to correct agents&lt;/div&gt;" vertex="1">
           <mxGeometry height="150" width="290" x="280" y="250" as="geometry" />
         </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-27" edge="1" parent="1" source="LPWrPx7DY98C0RRhd-94-14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="LPWrPx7DY98C0RRhd-94-26">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="sVrufyg7s0PkvheQMbxB-13" edge="1" parent="1" source="LPWrPx7DY98C0RRhd-94-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="LPWrPx7DY98C0RRhd-94-17">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="LPWrPx7DY98C0RRhd-94-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;🧠 YouTube Search Agent&lt;/b&gt;&lt;br&gt;[LLM]&lt;br&gt;&lt;br&gt;• Builds optimised search queries&lt;br&gt;• Queries YouTube Data API v3&lt;br&gt;• Filters by language &amp;amp; topic&lt;br&gt;• Returns candidate channel list" vertex="1">
-          <mxGeometry height="150" width="240" x="20" y="480" as="geometry" />
+        <mxCell id="LPWrPx7DY98C0RRhd-94-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;🧠 YouTube Search Agent&lt;/b&gt;&lt;br&gt;[LLM]&lt;br&gt;&lt;br&gt;• Builds optimised search queries&lt;br&gt;• Queries YouTube Data API v3&lt;br&gt;• Filters by language &amp;amp; topic &amp;amp; reels&lt;div&gt;• Returns candidate channel list&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="240" x="-30" y="480" as="geometry" />
         </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-28" edge="1" parent="1" source="LPWrPx7DY98C0RRhd-94-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="LPWrPx7DY98C0RRhd-94-25">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="sVrufyg7s0PkvheQMbxB-16" edge="1" parent="1" source="LPWrPx7DY98C0RRhd-94-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="LPWrPx7DY98C0RRhd-94-20">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;🧠 Transcript Sampler Agent&lt;/b&gt;&lt;br&gt;[LLM]&lt;br&gt;&lt;br&gt;• Fetches video transcripts&lt;br&gt;• Assesses vocabulary level&lt;br&gt;• Detects target language ratio&lt;br&gt;• Summarises content style" vertex="1">
-          <mxGeometry height="150" width="260" x="310" y="480" as="geometry" />
+          <mxGeometry height="150" width="260" x="295" y="480" as="geometry" />
         </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;🧠 Relevance Scoring Agent&lt;/b&gt;&lt;br&gt;[LLM]&lt;br&gt;&lt;br&gt;• Scores each channel 0-100&lt;br&gt;• Uses dynamic prompt per domain&lt;br&gt;&lt;div&gt;• Ranks final recommendation list&lt;/div&gt;&lt;div&gt;&lt;div&gt;• Gives simple explanation of score&lt;/div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="260" x="610" y="480" as="geometry" />
-        </mxCell>
-        <mxCell id="LPWrPx7DY98C0RRhd-94-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=default;align=center;verticalAlign=middle;rounded=0;" value="dispatch" vertex="1">
-          <mxGeometry height="20" width="47.5" x="262.5" y="430" as="geometry" />
+          <mxGeometry height="150" width="260" x="590" y="480" as="geometry" />
         </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="🔌 YouTube Transcript API&lt;br&gt;[External API / Python lib]&lt;br&gt;&lt;br&gt;youtube-transcript-api&lt;br&gt;Fetches auto-generated&lt;br&gt;&amp;amp; manual captions" vertex="1">
-          <mxGeometry height="120" width="190" x="345" y="670" as="geometry" />
+          <mxGeometry height="120" width="190" x="330" y="670" as="geometry" />
         </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="🔌 YouTube RapidAPI&lt;br&gt;[External API]&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Use search endpoint to make search&lt;/div&gt;" vertex="1">
-          <mxGeometry height="120" width="235" x="22.5" y="670" as="geometry" />
+          <mxGeometry height="120" width="235" x="-27.5" y="670" as="geometry" />
         </mxCell>
         <mxCell id="LPWrPx7DY98C0RRhd-94-29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="🔌 LangSmith&lt;br&gt;[External API / Observability]&lt;br&gt;&lt;br&gt;Traces all LLM calls&lt;br&gt;Logs agent decisions&lt;br&gt;Measures latency &amp;amp; cost" vertex="1">
           <mxGeometry height="140" width="200" x="760" y="70" as="geometry" />
         </mxCell>
         <mxCell id="sVrufyg7s0PkvheQMbxB-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="🗄️ ChromaDB Vector Store&lt;br&gt;[RAG / Storage]&lt;br&gt;&lt;br&gt;Stores user interest embeddings&lt;br&gt;Stores channel metadata&lt;br&gt;Enables similarity search&lt;br&gt;for personalisation" vertex="1">
-          <mxGeometry height="130" width="200" x="-330" y="210" as="geometry" />
+          <mxGeometry height="130" width="200" x="-550" y="200" as="geometry" />
         </mxCell>
-        <mxCell id="sVrufyg7s0PkvheQMbxB-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="⚙️ MCP Filesystem Server&lt;br&gt;[MCP]&lt;br&gt;&lt;br&gt;Reads/writes user profile YAML&lt;br&gt;Persists channel ratings&lt;br&gt;Stores watch history &amp;amp; feedback" vertex="1">
+        <mxCell id="sVrufyg7s0PkvheQMbxB-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="⚙️ MCP Filesystem Server&lt;br&gt;[MCP]&lt;br&gt;&lt;br&gt;&lt;div&gt;Reads/writes user profile YAML&lt;/div&gt;Simple whole-profile update tool" vertex="1">
           <mxGeometry height="130" width="195" x="800" y="260" as="geometry" />
         </mxCell>
         <mxCell id="sVrufyg7s0PkvheQMbxB-5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;div&gt;&lt;b&gt;HITL Checkpoint&lt;/b&gt;&lt;/div&gt;&lt;div&gt;Send this list somewhere&lt;/div&gt;&lt;div&gt;Subscribe to the channel&lt;/div&gt;" vertex="1">
-          <mxGeometry height="110" width="200" x="-330" y="80" as="geometry" />
+          <mxGeometry height="110" width="200" x="-550" y="70" as="geometry" />
         </mxCell>
         <mxCell id="sVrufyg7s0PkvheQMbxB-6" connectable="0" parent="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;write new information&lt;/div&gt;&lt;div&gt;to user profile&lt;/div&gt;" vertex="1">
           <mxGeometry x="740" y="325" as="geometry" />
         </mxCell>
-        <mxCell id="sVrufyg7s0PkvheQMbxB-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&quot;I like: Python, AI&quot;&lt;br&gt;&quot;I dislike: cooking&quot;&lt;br&gt;&quot;Skill level: B2&quot;&lt;br&gt;&quot;Saved channels: [list]&quot;&lt;br&gt;&quot;Ratings: {channel_id: 5/5}&quot;" vertex="1">
-          <mxGeometry height="110" width="160" x="1010" y="270" as="geometry" />
+        <mxCell id="sVrufyg7s0PkvheQMbxB-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="UserInfo&lt;br&gt;interests: Python, AI&lt;br&gt;dislikes: cooking&lt;br&gt;&lt;div&gt;languages: [list]&lt;/div&gt;&lt;div&gt;language_levels: {language:level}&lt;/div&gt;saved_channels: [list]&lt;br&gt;&lt;div&gt;channel_ratings: {channel_id: 5/5}&lt;/div&gt;&lt;div&gt;video_ratings: {video_id: 5/5}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="230" x="1010" y="270" as="geometry" />
         </mxCell>
         <mxCell id="sVrufyg7s0PkvheQMbxB-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="The full description and transcript snippets of every channel you&#39;ve ever rated highly, converted into &lt;strong&gt;vector embeddings&lt;/strong&gt;&lt;br&gt;&lt;div&gt;This allows the Relevance Scorer to find channels that are &lt;em&gt;semantically similar&lt;/em&gt; to ones you liked, even if they don&#39;t share exact keywords&lt;/div&gt;&lt;div&gt;Maybe it will never be useful&lt;/div&gt;" vertex="1">
-          <mxGeometry height="70" width="240" x="-325" y="380" as="geometry" />
+          <mxGeometry height="70" width="240" x="-545" y="370" as="geometry" />
         </mxCell>
         <mxCell id="sVrufyg7s0PkvheQMbxB-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;strokeWidth=6;" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;FUTURE IMPLEMENTATIONS&lt;/font&gt;" vertex="1">
-          <mxGeometry height="30" width="220" x="-340" y="-10" as="geometry" />
+          <mxGeometry height="30" width="220" x="-560" y="-20" as="geometry" />
         </mxCell>
         <mxCell id="sVrufyg7s0PkvheQMbxB-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;b&gt;Digest Agent&lt;/b&gt;&lt;/div&gt;&lt;div&gt;[LLM]&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Verify new&amp;nbsp;videos in the saved channels&lt;/div&gt;&lt;div&gt;Summarize new information&lt;/div&gt;&lt;div&gt;Send it through Whatsapp?&lt;/div&gt;" vertex="1">
-          <mxGeometry height="110" width="230" x="-325" y="490" as="geometry" />
+          <mxGeometry height="110" width="230" x="-545" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="Ewj6_PKgM9HtCzvZXUml-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;STATE&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;search_params: {&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;topic (str): AI&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;language (str): German&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;target_level (str): B1&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Videos (list of video)&lt;/div&gt;&lt;div&gt;video (dict): {&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;video_id (str): search agent&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;video_title (str) : search agent&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;channel_id (str): search agent&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;channel_title (str) : search agent&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;CC (bool): search agent&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;detected_language (str): transcript agent&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;detected_level (str): transcript agent&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;for_students (bool): transcript agent&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;score&lt;/span&gt;&amp;nbsp;(int): scoring agent&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;UserInfo&lt;/div&gt;" vertex="1">
+          <mxGeometry height="320" width="280" x="-20" y="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

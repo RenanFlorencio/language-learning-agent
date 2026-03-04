@@ -49,7 +49,8 @@ def search_youtube(query: str, language: str, max_results: int) -> list[VideoInf
                 channel_id=item["video"]["author"]["channelId"],
                 channel_title=item["video"]["author"]["title"],
                 CC=True if "CC" in item["video"]["badges"] else False,
-                published_time=item["video"]["publishedTimeText"]
+                published_time=item["video"]["publishedTimeText"],
+                views=item["video"]["stats"]["views"]
             )
             videos.append(video_info)
 

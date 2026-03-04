@@ -9,11 +9,10 @@ class SearchParams(BaseModel):
         target_level (str): The language proficiency level the user is targeting, e.g., "A1", "A2", "B1", "B2", "C1", "C2".
         max_results (PositiveInt): The maximum number of video results to return, must be a positive integer.   
     """
-
     topic: str 
     language: str 
-    target_level: str  
-
+    target_level: str
+    max_results: PositiveInt
 
 class UserProfile(BaseModel):
     """ Represents the user's profile containing their preferences and information relevant to video recommendations.
@@ -56,10 +55,11 @@ class VideoInfo(BaseModel):
     channel_title: str # Provided by Search Agent
     CC: bool # Provided by Search Agent (Closed Captions)
     published_time: str # Provided by Search Agent
+    views: int # Provided by Search Agent
     detected_language: str | None = None # Detected by Transcription Agent
     detected_level: str | None = None # Detected by Transcription Agent
     for_students: bool | None = None # Determined by Transcription Agent based on content suitability for students
-    score : float | None = None # Calculated by Scoring Agent, default is -1 indicating not scored yet
+    score : Annotated[float, Field(ge=0, le=10)] | None = None # Calculated by Scoring Agent, None if not yet scored
 
 class State(BaseModel):
     """

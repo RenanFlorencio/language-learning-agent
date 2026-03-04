@@ -4,6 +4,8 @@ from langchain_core.tools import tool
 ytt_api = YouTubeTranscriptApi()
 MAX_SNIPPETS = 50
 
+# Based on https://github.com/jdepoix/youtube-transcript-api
+
 def api_call(video_id: str, languages: list[str]) -> Transcript:
     """Fetches the transcript for a given YouTube video ID in the specified languages.
     Args:
