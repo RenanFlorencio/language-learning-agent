@@ -6,9 +6,11 @@ from langchain_core.tools import tool
 
 MIN_LENGTH_SECONDS = 120
 url = "https://youtube138.p.rapidapi.com/search/"
-load_dotenv()
 
 def api_call(query: str, language: str) -> dict:
+    """Makes an API call to the YouTube search endpoint using RapidAPI to retrieve video data based on the search query and language."""
+    load_dotenv(override=True)
+
     headers = {
         "x-rapidapi-key": os.getenv("RAPIDAPI_KEY"),
         "x-rapidapi-host": "youtube138.p.rapidapi.com",
@@ -22,7 +24,7 @@ def api_call(query: str, language: str) -> dict:
     
     return response.json()
 
-@tool
+
 def search_youtube(query: str, language: str, max_results: int) -> list[VideoInfo]:
     """Searches YouTube for videos matching the query, language, and region, and returns a list of VideoInfo objects containing metadata about the videos.
     Args:        

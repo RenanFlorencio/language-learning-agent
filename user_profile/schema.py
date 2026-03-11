@@ -1,5 +1,8 @@
-from typing import Annotated
+from typing import Annotated, Optional
+from langgraph.graph import MessagesState
 from pydantic import BaseModel, PositiveInt, Field
+from langgraph.graph import MessagesState
+
 
 class SearchParams(BaseModel):
     """Represents the parameters for searching videos based on user preferences.
@@ -61,17 +64,7 @@ class VideoInfo(BaseModel):
     for_students: bool | None = None # Determined by Transcription Agent based on content suitability for students
     score : Annotated[float, Field(ge=0, le=10)] | None = None # Calculated by Scoring Agent, None if not yet scored
 
-class State(BaseModel):
-    """
-    Represents the state of the application, including user profile and search parameters.
-
-    Attributes:
-        user_profile (UserProfile): The user's profile containing interests, dislikes, languages, etc.
-        search_params (SearchParams): The parameters used for searching videos.
-        videos (list[VideoInfo] | None): The list of video information objects, or None if not set.
-        intent (str): The user's intent or purpose for searching, e.g., "new channels", "determine language level", "update profile".
-    """
-    user_profile: UserProfile | None = None
-    search_params: SearchParams | None = None
-    videos: list[VideoInfo] | None = None
-    intent: str
+# This is going to be the state that is passed around in the orchestrator agent
+class State(MessagesState):
+    search_params: Optional[SearchParams]
+    videos: Optional[list[VideoInfo]]

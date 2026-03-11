@@ -1,7 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 
-prompt = ChatPromptTemplate.from_messages([
-    ("system", """
+PROMPT = """
     You are a helpful assistant that must extract information from videos using their transcripts.
      
     You have access to the following tols to help you with your task:
@@ -37,6 +36,4 @@ prompt = ChatPromptTemplate.from_messages([
      
     Return the updated list of VideoInfo objects with the three 
     fields filled in for each video where transcript was available.
-    """),
-    ("human", "Please extract transcript information for the following videos: {videos}")
-])
+    """

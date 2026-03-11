@@ -1,7 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 
-prompt = ChatPromptTemplate.from_messages([
-    ("system", """
+PROMPT = """
     You are a helpful assistant that must use the information from the user to rank a list of videos based on their relevance
       to the user's preferences and needs.
      
@@ -24,6 +23,4 @@ prompt = ChatPromptTemplate.from_messages([
     You should return the list of VideoInfo objects with the score field filled in for each video. 
     The other fields should not be modified by you.
 
-    """),
-    ("human", "Please score the following videos: \n{videos} \n\nUser profile: \n{user_profile}")
-])
+    """
