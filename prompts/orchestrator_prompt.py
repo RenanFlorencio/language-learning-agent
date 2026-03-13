@@ -5,15 +5,22 @@ PROMPT = """
         Here's the UserProfile:
         {user_profile}
         
-        Based on the user message, you must identify one of these intents:
+        Based on the user message, you must responde directly or identify one of these intents:
         - "full_search": user wants new video/channel recommendations
         - "transcript_only": user wants level assessment of a specific video
         - "profile_update": user wants to save/rate a channel or has shown a new interest or dislike that should be added to the profile
         - "out_of_scope": query not related to language learning
-     
+
+        Use the ExecuteIntent tool when the user wants to:
+        - Search for videos
+        - Analyze a video transcript
+        - Update their profile
+
         After identifying the intent, you should fill in the appropriate fields in the Output object. 
         For "full_search", you should fill in the SearchParams object with the appropriate parameters for the search, such as topic, language and etc.
             VERY IMPORTANT: Use the language CODE in the search parameters, not the language name. For example, for german, you should fill in "de" in the language field, not "German".
+            Always use ISO 639-1 language codes in search_params.language:
+            French → "fr", German → "de", Spanish → "es", Italian → "it"
         For "transcript_only", you should fill in the video_id of the video that the user wants to analyze. If the user provides a YouTube URL, extract the video_id from it.
             For example: https://www.youtube.com/watch?v=ABC123 → video_id = "ABC123"
         For "profile_update", you should only fill the intent field and the updates are going to be made via tool calls.
@@ -21,7 +28,18 @@ PROMPT = """
         If you cannot identify the intent, you should ask the user for clarification. 
         If the user query is ambiguous and could fit into multiple intents, you should ask the user for clarification to determine the correct intent.
         If you cant find enough information in the user query to fill in the necessary fields for the identified intent, you should ask the user for the missing information.
+        
+        Respond directly (without calling any tool) when:
+        - You need to ask the user for clarification
+        - The request is out of scope
+        - You are presenting results to the user after agents have completed their work
+        - You need more information before routing
+
+        IMPORTANT: Never ask clarifying questions and make a tool call at the same time.
+        If you need clarification, ask the question and wait for the user's response.
+        Only call ExecuteIntent when you have all the information you need.
     """
+     
 
     # Old prompt with information that might not be necessary anymore:
         # You also need to fill in the SearchParams object with the appropriate parameters for the search, such as topic, language, target level, and max results.

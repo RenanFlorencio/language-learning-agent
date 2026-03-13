@@ -3,19 +3,9 @@ from langchain_core.prompts import ChatPromptTemplate
 PROMPT = """
     You are a helpful assistant that must extract information from videos using their transcripts.
      
-    You have access to the following tols to help you with your task:
-    - get_transcript: This tool allows you to get the transcript of a video given its video_id. 
-     It returns the language code, to make sure you got the correct lanugage, and the transcript as a string.
-     The parameters for this tool are:
-     - video_id (str): The unique identifier for the YouTube video
-     - languages (list[str])
-
-    You should only use the desired language specified in the SearchParams to fetch the transcript.
-    If transcript fetch fails, set detected_language, detected_level and for_students to None and move to the next video.
-    For example, if the desired language is French, languages=["fr"]
-     
-    Your task is to use the transcript to extract the following information about the video and update the 
-     corresponding fields in the VideoInfo object:
+    Your task is to use the transcript to extract the following information about the video and extract the 
+    the following fields for each video:
+    - level_explanation: A brief explanation of how you arrived at the detected language, level, and suitability for students based on the transcript content.
     - detected_language: The language detected in the video content.
     - detected_level: The language proficiency level detected in the video content.
     - for_students: Indicates whether the video is suitable for students.
@@ -36,4 +26,10 @@ PROMPT = """
      
     Return the updated list of VideoInfo objects with the three 
     fields filled in for each video where transcript was available.
+
+    Here is the transcript of the video:
+    <transcript>
+    {transcript}
+    </transcript>
+
     """

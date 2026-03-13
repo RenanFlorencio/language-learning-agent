@@ -1,6 +1,6 @@
 from typing import Annotated, Optional
 from langgraph.graph import MessagesState
-from pydantic import BaseModel, PositiveInt, Field
+from pydantic import BaseModel, ConfigDict, PositiveInt, Field
 from langgraph.graph import MessagesState
 
 
@@ -37,6 +37,19 @@ class UserProfile(BaseModel):
     channel_ratings: dict[str, Annotated[float, Field(ge=0, le=5)]] = {}
     video_ratings: dict[str, Annotated[float, Field(ge=0, le=5)]] = {}
 
+
+class TranscriptAnalysis(BaseModel):
+    level_explanation: str
+    detected_language: str | None = None
+    detected_level: str | None = None
+    for_students: bool | None = None
+
+
+class ScoreAnalysis(BaseModel):
+    score_explanation: str
+    score: Annotated[int, Field(ge=0, le=100)]
+
+
 class VideoInfo(BaseModel):
     """
     Represents metadata information about a video.
@@ -52,6 +65,7 @@ class VideoInfo(BaseModel):
         for_students (bool | None): Indicates whether the video is suitable for students, or None if not determined.
         score (float | None): A score representing the relevance or quality of the video, or None if not scored. Default is -1, indicating that the video has not been scored yet.
     """
+    model_config = ConfigDict(frozen=False)
     video_id: str # Provided by Search Agent
     title: str # Provided by Search Agent
     channel_id: str # Provided by Search Agent
@@ -61,10 +75,13 @@ class VideoInfo(BaseModel):
     views: int # Provided by Search Agent
     detected_language: str | None = None # Detected by Transcription Agent
     detected_level: str | None = None # Detected by Transcription Agent
+    level_explanation: str | None = None # Explanation of how the detected level was determined based on transcript content, provided by Transcription Agent
     for_students: bool | None = None # Determined by Transcription Agent based on content suitability for students
-    score : Annotated[float, Field(ge=0, le=10)] | None = None # Calculated by Scoring Agent, None if not yet scored
+    score_explanation: str | None = None # Explanation of how the score was calculated based on relevance and user preferences, provided by Scoring Agent
+    score : Annotated[int, Field(ge=0, le=100)] | None = None # Calculated by Scoring Agent, None if not yet scored
 
 # This is going to be the state that is passed around in the orchestrator agent
 class State(MessagesState):
     search_params: Optional[SearchParams]
     videos: Optional[list[VideoInfo]]
+    video_id : Optional[str] # The video id of the video being processed in the current step, used for transcript and scoring agents

@@ -23,7 +23,7 @@ def api_call(video_id: str, languages: list[str]) -> Transcript:
     except Exception as e:
         raise Exception(f"Could not fetch transcript... Error: {e}")
 
-@tool
+
 def get_transcript(video_id: str, languages: list[str]) -> tuple[str, str]:
     """Fetches the transcript for a given YouTube video ID in the specified languages and returns it as a single concatenated string.
     Args:
@@ -38,4 +38,4 @@ def get_transcript(video_id: str, languages: list[str]) -> tuple[str, str]:
     concat_str = " ".join([snippet.text for snippet in str_snippets])
 
     language_code = transcript.language_code
-    return language_code, concat_str
+    return concat_str, language_code
