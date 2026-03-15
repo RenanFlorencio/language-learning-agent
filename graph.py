@@ -10,7 +10,7 @@ from user_profile.schema import State
 import configuration
 
 def build_graph():
-    builder = StateGraph(State, config_schema=configuration.Configuration)
+    builder = StateGraph(State, config_schema=configuration.Configuration) # type: ignore
     builder.add_node("orchestrator", orchestrator)
     builder.add_node("full_search_pipeline", full_search_pipeline)
     builder.add_node("transcript_only_pipeline", transcript_only_pipeline)
@@ -30,4 +30,4 @@ def build_graph():
     graph = builder.compile(checkpointer=in_thread_memory, store=across_thread_memory)
 
     # View
-    return graph
+    return graph, across_thread_memory

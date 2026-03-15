@@ -9,6 +9,18 @@ from agents.shared import get_model
 import uuid
 import configuration
 
+_profile_extractor = None
+
+def get_profile_extractor():
+    global _profile_extractor
+    if _profile_extractor is None:
+        _profile_extractor = create_extractor(
+            get_model(),
+            tools=[UserProfile],
+            tool_choice="UserProfile",
+        )
+    return _profile_extractor
+
 
 def profile_updater(state : State, config : RunnableConfig, store : BaseStore):
     # This agent is responsible for updating the user's profile based on their interactions and feedback.
@@ -28,11 +40,7 @@ def profile_updater(state : State, config : RunnableConfig, store : BaseStore):
     
     updated_messages=list(merge_message_runs(messages=[SystemMessage(content=profile_prompt.PROMPT)] + state["messages"][-3:-1]))
     # Create the Trustcall extractor for updating the user profile 
-    profile_extractor = create_extractor(
-        model,
-        tools=[UserProfile],
-        tool_choice=tool_name,
-    )
+    profile_extractor = get_profile_extractor()
 
     # This might return several updates if the message has several updates
     result = profile_extractor.invoke({"messages": updated_messages, 

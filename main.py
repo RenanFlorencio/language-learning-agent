@@ -8,7 +8,7 @@ if __name__ == "__main__":
     os.environ["LANGSMITH_TRACING"] = "true"
     os.environ["LANGSMITH_PROJECT"] = "language-learning-agent"
 
-    graph = build_graph()
+    graph, store = build_graph()
     
     result = graph.invoke(
     {"messages": [HumanMessage(content="Find me 5 French cooking videos at B1")]},
