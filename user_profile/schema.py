@@ -1,5 +1,4 @@
-from typing import Annotated, Optional
-from langgraph.graph import MessagesState
+from typing import Annotated, Optional, Literal
 from pydantic import BaseModel, ConfigDict, PositiveInt, Field
 from langgraph.graph import MessagesState
 
@@ -15,7 +14,7 @@ class SearchParams(BaseModel):
     topic: str 
     language: str 
     target_level: str
-    max_results: PositiveInt
+    max_results: PositiveInt = 10
 
 class UserProfile(BaseModel):
     """ Represents the user's profile containing their preferences and information relevant to video recommendations.
@@ -85,3 +84,15 @@ class State(MessagesState):
     search_params: Optional[SearchParams]
     videos: Optional[list[VideoInfo]]
     video_id : Optional[str] # The video id of the video being processed in the current step, used for transcript and scoring agents
+
+class ExecuteIntent(BaseModel):
+    """Call this to execute the user's intent"""
+    intent: Literal[
+        "full_search",
+        "transcript_only", 
+        "rerank_only",
+        "profile_update",
+        "out_of_scope"
+    ]
+    search_params: SearchParams | None = None
+    video_id: str | None = None

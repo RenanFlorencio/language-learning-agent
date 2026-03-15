@@ -1,0 +1,7 @@
+{
+    "dependencies": ["."],
+    "graphs": {
+        "language_learning_agent": "./graph.py:build_graph"
+    },
+    "env": ".env"
+}

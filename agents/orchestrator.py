@@ -1,31 +1,38 @@
-from pydantic import BaseModel
-from typing import Literal
-from user_profile.schema import SearchParams, State
+from user_profile.schema import State
+from prompts import orchestrator_prompt
+from agents.shared import get_user_profile, get_model
+from langchain_core.runnables import RunnableConfig
+from langgraph.store.base import BaseStore
+from user_profile.schema import ExecuteIntent
+from langchain_core.messages import HumanMessage, SystemMessage
+import configuration
 
-class ExecuteIntent(BaseModel):
-    """Call this to execute the user's intent"""
-    intent: Literal[
-        "full_search",
-        "transcript_only", 
-        "rerank_only",
-        "profile_update",
-        "out_of_scope"
-    ]
-    search_params: SearchParams | None = None
-    video_id: str | None = None
-
-def route_intent(state: State) -> str:
-    last_message = state["messages"][-1]
-    tool_call = last_message.tool_calls[0]
-    intent = tool_call["args"]["intent"]
+def orchestrator(state : State, config : RunnableConfig, store : BaseStore):
     
-    if intent == "full_search":
-        return "search_agent"
-    elif intent == "transcript_only":
-        return "transcript_agent"
-    elif intent == "rerank_only":
-        return "scoring_agent"
-    elif intent == "profile_update":
-        return "profile_update_node"
+    # # Retrieve the user state from the store
+    configurable = configuration.Configuration.from_runnable_config(config)
+    user_id = configurable.user_id
+    user_profile = get_user_profile(user_id, store)
+
+    system_msg = orchestrator_prompt.PROMPT.format(user_profile=user_profile)
+
+    model = get_model()
+    response = model.bind_tools([ExecuteIntent]).invoke([SystemMessage(content=system_msg)] + state["messages"])
+    
+    if response.tool_calls:
+        print("Orchestrator made tool call!")
+        args = response.tool_calls[0]["args"]  # reading what LLM generated
+        print(f"tool call args: {args}")
+        search_params = args.get("search_params", None)  # getting the specific field
+        if search_params and len(search_params["language"]) > 2:
+            return {
+                "messages": [HumanMessage(content="Please use a language code (e.g. 'de', 'fr') not the full language name")],
+                "search_params": None,
+                "video_id": None
+            }
+        video_id = args.get("video_id", None)
     else:
-        return END
+        search_params = None
+        video_id = None
+
+    return {"messages" : [response], "search_params": search_params, "video_id" : video_id}

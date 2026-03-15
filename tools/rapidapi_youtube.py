@@ -2,12 +2,13 @@ import requests
 import os
 from user_profile.schema import VideoInfo
 from dotenv import load_dotenv
-from langchain_core.tools import tool
+from pathlib import Path
+import json
 
 MIN_LENGTH_SECONDS = 120
 url = "https://youtube138.p.rapidapi.com/search/"
 
-def api_call(query: str, language: str) -> dict:
+def api_call(query: str, language: list[str]) -> dict:
     """Makes an API call to the YouTube search endpoint using RapidAPI to retrieve video data based on the search query and language."""
     load_dotenv(override=True)
 
@@ -25,15 +26,20 @@ def api_call(query: str, language: str) -> dict:
     return response.json()
 
 
-def search_youtube(query: str, language: str, max_results: int) -> list[VideoInfo]:
+def search_youtube(query: str, language: list[str], max_results: int) -> list[VideoInfo]:
     """Searches YouTube for videos matching the query, language, and region, and returns a list of VideoInfo objects containing metadata about the videos.
     Args:        
         query (str): The search query or keywords to find relevant videos, e.g., "beginner Spanish lessons", "cooking tutorials", "technology reviews".
-        language (str): The language in which the user wants to find videos, e.g., "English", "Spanish", "French".
+        language (list[str]): The languages in which the user wants to find videos, e.g., ["English", "Spanish", "French"].
         max_results (int): The maximum number of results to return. Must be a positive integer.
     Returns:
         list[VideoInfo]: A list of VideoInfo objects containing metadata about the videos that match the search criteria, such as video ID, title, channel information, closed captions availability, published time, and placeholders for detected language, detected level, suitability for students, and score.
     """
+    # Try to hit the cache first to avoid unnecessary API calls
+    cache_file = Path(f"cache/search/{query}_{language}.json")
+    if cache_file.exists():
+        return json.loads(cache_file.read_text())
+
     response = api_call(query, language)
 
     videos = []
@@ -58,10 +64,11 @@ def search_youtube(query: str, language: str, max_results: int) -> list[VideoInf
 
     if len(videos) == 0:
         raise Exception("No videos found matching the search criteria.")
-
+    
+    # Cache the results for future use
+    cache_file.write_text(json.dumps([v.model_dump() for v in videos]))
     return videos
 
-@tool
 def search_youtube_mock(topic: str, language: str, target_level: str) -> list[VideoInfo]:
     """Searches YouTube for videos matching the query, language, and region, and returns a list of VideoInfo objects containing metadata about the videos.
     Args:        

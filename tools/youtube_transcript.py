@@ -1,5 +1,8 @@
+import json
+
 from youtube_transcript_api import Transcript, YouTubeTranscriptApi
 from langchain_core.tools import tool
+from pathlib import Path
 
 ytt_api = YouTubeTranscriptApi()
 MAX_SNIPPETS = 50
@@ -30,12 +33,21 @@ def get_transcript(video_id: str, languages: list[str]) -> tuple[str, str]:
         video_id (str): The unique identifier for the YouTube video
         languages (list[str]): A list of language codes (e.g., ["de", "es"]) it will first try to fetch the german transcript ('de') and then fetch the english transcript ('en') if it fails to do so.
     Returns:
-        tuple[str, str]: A tuple containing the language code and a single concatenated string containing the text of the transcript. For example:
-        ("de", "Hello, welcome to this video. In this video, we will discuss...")
+        tuple[str, str]: A tuple containing the transcript str and the language code. For example:
+        ("Bonjour. Aujourd'hui on va parler des...", "fr")
     """
+    cached_file = Path(f"cache/transcript/{video_id}.json")
+    cached_file.parent.mkdir(parents=True, exist_ok=True)  # add this line to ensure the directory exists
+
+    if cached_file.exists():
+        return json.loads(cached_file.read_text())
+
     transcript = api_call(video_id, languages)
     str_snippets = transcript.fetch()[:MAX_SNIPPETS]
     concat_str = " ".join([snippet.text for snippet in str_snippets])
 
     language_code = transcript.language_code
+
+    # Cache the transcript for future use
+    cached_file.write_text(json.dumps((concat_str, language_code)))
     return concat_str, language_code

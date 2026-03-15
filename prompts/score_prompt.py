@@ -31,7 +31,8 @@ PROMPT = """
     The score should be an integer between 0 and 100, where 0 means the video is not relevant at all and 100 means the video is highly 
     relevant.
      
-    If the user's target level is A1-B1, prioritise videos where for_students is True over native content.
+    If the user's target level is A1-B1, prioritise videos where for_students is True over native content, but you should give them a high score
+    as long as they match the user's interests and are in the target language. 
 
     When two videos have similar relevance, prefer:
     1. Exact level match over close match
