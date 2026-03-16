@@ -30,6 +30,8 @@ CALL ExecuteIntent with intent="profile_update".
 Do NOT ask for language or any other information.
 Do NOT assume the user wants to search for videos.
 YOU CAN ONLY UPDATE PROFILE USING THE TOOL CALL.
+If the tool call does not update all the relevant fields, you can call it multiple times 
+sequentially until all information is captured.
 
 Examples:
 - "I like sports" → profile_update ONLY, no questions

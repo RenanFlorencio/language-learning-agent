@@ -2,6 +2,8 @@
 from langgraph.graph import StateGraph, START
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.store.memory import InMemoryStore
+from langgraph.store.sqlite import SqliteStore
+import sqlite3
 
 from agents.orchestrator import orchestrator
 from agents.pipelines import route_intent, full_search_pipeline, transcript_only_pipeline
@@ -23,11 +25,17 @@ def build_graph():
     builder.add_edge("profile_update_agent", "orchestrator")
 
     # Store long-term
-    across_thread_memory = InMemoryStore()
+    conn = sqlite3.connect(
+    "profile.db",
+    check_same_thread=False,  # allow access from multiple threads
+    isolation_level=None       # autocommit mode — lets SqliteStore manage transactions
+    )
+    store = SqliteStore(conn)
+    store.setup()
     # Store short-term
     in_thread_memory = MemorySaver()
 
-    graph = builder.compile(checkpointer=in_thread_memory, store=across_thread_memory)
+    graph = builder.compile(checkpointer=in_thread_memory, store=store)
 
     # View
-    return graph, across_thread_memory
+    return graph, store

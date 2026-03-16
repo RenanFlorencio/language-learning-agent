@@ -9,9 +9,12 @@ if __name__ == "__main__":
     os.environ["LANGSMITH_PROJECT"] = "language-learning-agent"
 
     graph, store = build_graph()
+
+    memories = store.search(("profile", "test_user"))
+    print("Profile before:", memories[0].value if memories else "empty")
     
     result = graph.invoke(
-    {"messages": [HumanMessage(content="Find me 5 French cooking videos at B1")]},
+    {"messages": [HumanMessage(content="I like cinema")]},
     config={
         "configurable": {
             "thread_id": f"{uuid.uuid4()}",
@@ -19,3 +22,6 @@ if __name__ == "__main__":
             }
         }
     )
+
+    memories = store.search(("profile", "test_user"))
+    print("Current profile:", memories[0].value if memories else "empty")

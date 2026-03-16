@@ -47,16 +47,33 @@ def profile_updater(state : State, config : RunnableConfig, store : BaseStore):
                                          "existing": existing_memories}) 
 
     # Save the memories from Trustcall to the store
+    changes = []
     for r, rmeta in zip(result["responses"], result["response_metadata"]):
+        updated = r.model_dump(mode="json") 
+
+        existing = {}
+        if existing_memories:
+            existing = existing_memories[0][2]  # Assuming only one existing profile per user
+        
+        for field, new_value in updated.items():
+            old_value = existing.get(field)
+            if new_value != old_value:
+                changes.append(f"  - {field}: {old_value} → {new_value}")
+        
         store.put(
             namespace,                              # ("profile", user_id) — where to store
             rmeta.get("json_doc_id", str(uuid.uuid4())),  # key — reuses existing doc id if updating
-            r.model_dump(mode="json"),             # value — the updated UserProfile as dict
+            updated,             # value — the updated UserProfile as dict
         )
+
+    if changes:
+        summary = "Profile updated:\n" + "\n".join(changes)
+    else:
+        summary = "Profile checked — no changes needed"
 
     last_message = state['messages'][-1]
     if not isinstance(last_message, AIMessage):
         raise ValueError("Expected AIMessage with tool calls")
     tool_calls = last_message.tool_calls
 
-    return {"messages": [{"role": "tool", "content": "updated profile", "tool_call_id":tool_calls[0]['id']}]}
+    return {"messages": [{"role": "tool", "content": summary, "tool_call_id":tool_calls[0]['id']}]}
