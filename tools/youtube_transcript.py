@@ -1,5 +1,6 @@
 import json
-
+from agents.shared import USE_MOCK_DATA
+from tests.fixtures import mock_transcripts
 from youtube_transcript_api import Transcript, YouTubeTranscriptApi
 from langchain_core.tools import tool
 from pathlib import Path
@@ -36,6 +37,9 @@ def get_transcript(video_id: str, languages: list[str]) -> tuple[str, str]:
         tuple[str, str]: A tuple containing the transcript str and the language code. For example:
         ("Bonjour. Aujourd'hui on va parler des...", "fr")
     """
+    if USE_MOCK_DATA:
+        return (str(mock_transcripts.get(video_id)), "")
+
     cached_file = Path(f"cache/transcript/{video_id}.json")
     cached_file.parent.mkdir(parents=True, exist_ok=True)  # add this line to ensure the directory exists
 

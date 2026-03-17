@@ -1,14 +1,13 @@
-from user_profile.schema import State
+from schemas.schema import State
 from prompts import transcript_prompt
-from agents.shared import get_model, USE_MOCK_DATA, parse_search_params
+from agents.shared import get_model, parse_search_params
 from langchain_core.runnables import RunnableConfig
 from langgraph.store.base import BaseStore
-from user_profile.schema import TranscriptAnalysis
+from schemas.schema import TranscriptAnalysis
 from langchain_core.messages import SystemMessage
 from tools import youtube_transcript
 from tqdm import tqdm
 from typing import cast
-from tests.fixtures import mock_transcripts
 
 def transcripter(state : State, config : RunnableConfig, store : BaseStore):
     # This agent is responsible for generating transcripts for videos that are found to be relevant to the user's preferences.
@@ -26,14 +25,11 @@ def transcripter(state : State, config : RunnableConfig, store : BaseStore):
 
     for v in tqdm(videos, desc="Extracting information from transcripts", unit="video"):
         
-        if USE_MOCK_DATA:
-            transcript = mock_transcripts.get(v.video_id, None)
-        else:
-            try:
-                transcript, _ = youtube_transcript.get_transcript(v.video_id, [language])
-            except Exception as e:
-                print(f"Could not fetch transcript for video {v.video_id}... Error: {e}")
-                transcript, _ = None, None
+        try:
+            transcript, _ = youtube_transcript.get_transcript(v.video_id, [language])
+        except Exception as e:
+            print(f"Could not fetch transcript for video {v.video_id}... Error: {e}")
+            transcript, _ = None, None
 
         detected_information = cast(TranscriptAnalysis, model.with_structured_output(TranscriptAnalysis).invoke(
                 [SystemMessage(content=transcript_prompt.PROMPT.format(transcript=transcript))] 

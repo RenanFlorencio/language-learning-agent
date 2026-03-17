@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 from langchain_core.messages import HumanMessage
-from user_profile.schema import UserProfile, VideoInfo, SearchParams
-from agents.scorer import scorer
+from schemas.schema import UserProfile, VideoInfo, SearchParams
+from agents.video_scorer import scorer
 
 if __name__ == "__main__":
     # Plausible user profile — French learner

@@ -1,4 +1,4 @@
-from user_profile.schema import VideoInfo
+from schemas.schema import VideoInfo, NewsArticle
 
 mock_videos = [
     VideoInfo(
@@ -90,3 +90,4 @@ mock_transcripts = {
     "2e7DAdOyb10": "Ouais nan mais là franchement il m'a cherché hein ! T'as vu comment il m'a regardé ? J'suis pas du genre à me laisser faire moi. Vas-y on s'explique dehors si t'as quelque chose à dire ! Les autres candidats de la villa essaient de calmer la situation mais ça dégénère rapidement."
 }
 
+mock_news = [{}]

@@ -1,7 +1,7 @@
-from user_profile.schema import State, VideoInfo
+from schemas.schema import State, VideoInfo
 from langchain_core.runnables import RunnableConfig
 from langgraph.store.base import BaseStore
-from agents import scorer, transcripter, searcher
+from agents import video_scorer, video_searcher, video_transcripter
 from langchain_core.messages import AIMessage
 from typing import Literal
 from langgraph.graph import END, START
@@ -28,9 +28,9 @@ def route_intent(state: State, config : RunnableConfig, store : BaseStore) -> Li
 
 
 def full_search_pipeline(state : State, config : RunnableConfig, store : BaseStore):
-    state["videos"] = searcher.searcher(state, config, store)["videos"]
-    state["videos"] = transcripter.transcripter(state, config, store)["videos"]
-    state["videos"] = scorer.scorer(state, config, store)["videos"]
+    state["videos"] = video_searcher.searcher(state, config, store)["videos"]
+    state["videos"] = video_transcripter.transcripter(state, config, store)["videos"]
+    state["videos"] = video_scorer.scorer(state, config, store)["videos"]
 
     video_summary = "\n".join([
         f"{i+1}. {v.title}\n"
@@ -69,7 +69,7 @@ def transcript_only_pipeline(state: State, config : RunnableConfig, store : Base
         published_time="Unknown",
         views=0
     )]
-    state["videos"] = transcripter.transcripter(state, config, store)["videos"]
+    state["videos"] = video_transcripter.transcripter(state, config, store)["videos"]
     if state["videos"] == None:
         return {"videos": {}}
 

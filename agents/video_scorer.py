@@ -1,9 +1,9 @@
-from user_profile.schema import State
-from prompts import score_prompt
+from schemas.schema import State
+from prompts import video_score_prompt
 from agents.shared import get_user_profile, get_model
 from langchain_core.runnables import RunnableConfig
 from langgraph.store.base import BaseStore
-from user_profile.schema import ScoreAnalysis
+from schemas.schema import ScoreAnalysis
 from langchain_core.messages import SystemMessage
 from tqdm import tqdm
 from typing import cast
@@ -21,7 +21,7 @@ def scorer(state: State, config: RunnableConfig, store: BaseStore) -> dict:
         return {"videos": []}
     
     for video in tqdm(videos, desc="Scoring videos", unit="video"):
-        system_msg = score_prompt.PROMPT.format(
+        system_msg = video_score_prompt.PROMPT.format(
             user_profile=user_profile,
             video_info=video,
             search_params=state["search_params"],

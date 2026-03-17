@@ -1,6 +1,6 @@
 
-from agents.transcripter import transcripter
-from user_profile.schema import VideoInfo
+from agents.video_transcripter import transcripter
+from schemas.schema import VideoInfo
 from unittest.mock import MagicMock
 from langchain.messages import HumanMessage
 

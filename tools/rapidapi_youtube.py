@@ -1,6 +1,8 @@
 import requests
 import os
-from user_profile.schema import VideoInfo
+from schemas.schema import VideoInfo
+from agents.shared import USE_MOCK_DATA
+from tests.fixtures import mock_videos
 from dotenv import load_dotenv
 from pathlib import Path
 import json
@@ -35,6 +37,9 @@ def search_youtube(query: str, language: list[str], max_results: int) -> list[Vi
     Returns:
         list[VideoInfo]: A list of VideoInfo objects containing metadata about the videos that match the search criteria, such as video ID, title, channel information, closed captions availability, published time, and placeholders for detected language, detected level, suitability for students, and score.
     """
+    if USE_MOCK_DATA:
+        return mock_videos
+
     # Try to hit the cache first to avoid unnecessary API calls
     cache_file = Path(f"cache/search/{query}_{language}.json")
     if cache_file.exists():
@@ -68,35 +73,3 @@ def search_youtube(query: str, language: list[str], max_results: int) -> list[Vi
     # Cache the results for future use
     cache_file.write_text(json.dumps([v.model_dump() for v in videos]))
     return videos
-
-def search_youtube_mock(topic: str, language: str, target_level: str) -> list[VideoInfo]:
-    """Searches YouTube for videos matching the query, language, and region, and returns a list of VideoInfo objects containing metadata about the videos.
-    Args:        
-        query (str): The search query or keywords to find relevant videos, e.g., "beginner Spanish lessons", "cooking tutorials", "technology reviews".
-        language (str): The language in which the user wants to find videos, e.g., "English", "Spanish", "French".
-        max_results (int): The maximum number of results to return. Must be a positive integer.
-    Returns:
-        list[VideoInfo]: A list of VideoInfo objects containing metadata about the videos that match the search criteria, such as video ID, title, channel information, closed captions availability, published time, and placeholders for detected language, detected level, suitability for students, and score.
-    """
-    # Predefined list of video information for testing purposes
-    mock_videos = [
-        VideoInfo(
-            video_id="video1",
-            title="Beginner Spanish Lessons - Part 1",
-            channel_id="channel1",
-            channel_title="Spanish Learning Channel",
-            CC=True,
-            published_time="2 weeks ago",
-            views=10000
-        ),
-        VideoInfo(
-            video_id="video2",
-            title="Intermediate Spanish Grammar - Part 1",
-            channel_id="channel1",
-            channel_title="Spanish Learning Channel",
-            CC=False,
-            published_time="1 month ago",
-            views=5000
-        )
-    ]
-    return mock_videos

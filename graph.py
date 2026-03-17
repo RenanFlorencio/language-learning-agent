@@ -8,7 +8,7 @@ import sqlite3
 from agents.orchestrator import orchestrator
 from agents.pipelines import route_intent, full_search_pipeline, transcript_only_pipeline
 from agents.profile_updater import profile_updater
-from user_profile.schema import State
+from schemas.schema import State
 import configuration
 
 def build_graph():

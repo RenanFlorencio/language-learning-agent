@@ -1,7 +1,7 @@
 import uuid
 from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.store.memory import InMemoryStore
-from user_profile.schema import UserProfile, SearchParams
+from schemas.schema import UserProfile, SearchParams
 from agents.profile_updater import profile_updater
 
 if __name__ == "__main__":

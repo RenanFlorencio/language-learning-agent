@@ -1,8 +1,8 @@
-from user_profile.schema import State
+from schemas.schema import State
 from prompts import profile_prompt
 from langchain_core.runnables import RunnableConfig
 from langgraph.store.base import BaseStore
-from user_profile.schema import UserProfile
+from schemas.schema import UserProfile
 from langchain_core.messages import SystemMessage, merge_message_runs, AIMessage
 from trustcall import create_extractor
 from agents.shared import get_model

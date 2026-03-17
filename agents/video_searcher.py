@@ -1,12 +1,11 @@
-from user_profile.schema import State, SearchParams
-from prompts import search_prompt
+from schemas.schema import State, SearchParams
+from prompts import news_search_prompt
 import unicodedata
-from agents.shared import get_user_profile, get_model, USE_MOCK_DATA, parse_search_params
+from agents.shared import get_user_profile, get_model, parse_search_params
 from langchain_core.runnables import RunnableConfig
 from langgraph.store.base import BaseStore
 from langchain_core.messages import SystemMessage
 from tools import rapidapi_youtube
-from tests.fixtures import mock_videos
 import configuration
 
 def searcher(state : State, config : RunnableConfig, store : BaseStore):
@@ -24,7 +23,7 @@ def searcher(state : State, config : RunnableConfig, store : BaseStore):
     search_params = parse_search_params(raw_search_params)
     assert search_params is not None, "search_params should not be None in search_agent"     
     
-    system_msg = search_prompt.PROMPT.format(search_params=search_params, user_profile=user_profile)
+    system_msg = news_search_prompt.PROMPT.format(search_params=search_params, user_profile=user_profile)
 
     # Use the LLM to generate a query
     response = model.invoke([SystemMessage(content=system_msg)])
@@ -38,15 +37,12 @@ def searcher(state : State, config : RunnableConfig, store : BaseStore):
     print("Language code:", search_params.language)
     print("Max results:", search_params.max_results)
 
-    # Call the search tool with the generated query
-    if USE_MOCK_DATA:
-        search_results = mock_videos
-    else:
-        search_results = rapidapi_youtube.search_youtube(
+    # Call the search tool with the generated query 
+    search_results = rapidapi_youtube.search_youtube(
             query=query,
             language=[search_params.language, "en"],
             max_results=search_params.max_results
-        )
+    )
 
     # Filter the search results to only include one video per channel
     seen_channels = set()

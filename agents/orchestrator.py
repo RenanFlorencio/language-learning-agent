@@ -1,9 +1,9 @@
-from user_profile.schema import State
+from schemas.schema import State
 from prompts import orchestrator_prompt
 from agents.shared import get_user_profile, get_model
 from langchain_core.runnables import RunnableConfig
 from langgraph.store.base import BaseStore
-from user_profile.schema import ExecuteIntent
+from schemas.schema import ExecuteIntent
 from langchain_core.messages import HumanMessage, SystemMessage
 import configuration
 

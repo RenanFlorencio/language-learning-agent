@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from agents import searcher
+from agents import video_searcher
 from langchain.messages import HumanMessage
 
 
@@ -22,5 +22,5 @@ if __name__ == "__main__":
         "user_profile": None
     }
 
-    result = searcher.searcher(state, config, store)
+    result = video_searcher.searcher(state, config, store)
     print(result["videos"])
