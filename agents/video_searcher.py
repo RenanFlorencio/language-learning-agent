@@ -1,5 +1,5 @@
 from schemas.schema import State, SearchParams
-from prompts import news_search_prompt
+from prompts import video_search_prompt
 import unicodedata
 from agents.shared import get_user_profile, get_model, parse_search_params
 from langchain_core.runnables import RunnableConfig
@@ -23,7 +23,7 @@ def searcher(state : State, config : RunnableConfig, store : BaseStore):
     search_params = parse_search_params(raw_search_params)
     assert search_params is not None, "search_params should not be None in search_agent"     
     
-    system_msg = news_search_prompt.PROMPT.format(search_params=search_params, user_profile=user_profile)
+    system_msg = video_search_prompt.PROMPT.format(search_params=search_params, user_profile=user_profile)
 
     # Use the LLM to generate a query
     response = model.invoke([SystemMessage(content=system_msg)])

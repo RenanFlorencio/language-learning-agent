@@ -37,8 +37,6 @@ def news_searcher(state : State, config : RunnableConfig, store : BaseStore):
         "messages": [SystemMessage(content=system_msg)]
     })
 
-    print("MESSAGES:\n", result["messages"])
-
     # Extract articles from tool results
     articles: list[NewsArticle] = []
     for msg in reversed(result["messages"]):
@@ -49,7 +47,7 @@ def news_searcher(state : State, config : RunnableConfig, store : BaseStore):
             except (json.JSONDecodeError, TypeError, KeyError):
                 pass
             break
-    print(f"\n\nNUMBER OF ARTCILES PARSED: {len(articles)}\n\n")
+    print(f"\nNews Search Agent: Parsed {len(articles)} articles\n")
 
     # Get the agent's final text response
     final_response = ""
@@ -64,22 +62,32 @@ def news_searcher(state : State, config : RunnableConfig, store : BaseStore):
         f"Expected AIMessage in state but got {type(last_state_message)}"
     tool_call_id = last_state_message.tool_calls[0]["id"]
 
+    # news_summary = "\n".join([
+    #     f"{i+1}. {art.title}\n"
+    #     f"   Author: {art.author}\n"
+    #     f"   Source: {art.source}\n"
+    #     f"   Description: {art.description}\n"
+    #     f"   Published at: {art.published_at}\n"
+    #     f"   URL: {art.url}"
+    #     for i, art in enumerate(articles)
+    # ]) 
 
-    news_summary = "\n".join([
-        f"{i+1}. {art.title}\n"
-        f"   Author: {art.author}\n"
-        f"   Source: {art.source}\n"
-        f"   Description: {art.description}\n"
-        f"   Published at: {art.published_at}\n"
-        f"   URL: {art.url}"
-        for i, art in enumerate(articles)
-    ]) 
+    # If I return the summary, the LLM will write a lot of stuff, taking some time.
+    # return {
+    #     "news": articles,
+    #     "messages": [{
+    #         "role": "tool",
+    #         "content": f"Found {len(articles)} news articles\n{news_summary}.",
+    #         "tool_call_id": tool_call_id
+    #     }]
+    # }
 
+    # Return a simple message, this saves time
     return {
-        "news_articles": articles,
+        "news": articles,
         "messages": [{
             "role": "tool",
-            "content": final_response or f"Found {len(articles)} news articles\n{news_summary}.",
+            "content": f"Found {len(articles)} news articles. They are displayed to the user in the news tab section!",
             "tool_call_id": tool_call_id
         }]
     }

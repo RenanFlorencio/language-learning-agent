@@ -1,3 +1,4 @@
+from schemas import schema
 from schemas.schema import State
 from prompts import profile_prompt
 from langchain_core.runnables import RunnableConfig
@@ -8,6 +9,7 @@ from trustcall import create_extractor
 from agents.shared import get_model
 import uuid
 import configuration
+import json
 
 _profile_extractor = None
 
@@ -37,8 +39,10 @@ def profile_updater(state : State, config : RunnableConfig, store : BaseStore):
                           if existing_items
                           else None
                         )
-    
-    updated_messages=list(merge_message_runs(messages=[SystemMessage(content=profile_prompt.PROMPT)] + state["messages"][-3:-1]))
+    profile_schema = json.dumps(UserProfile.model_json_schema()["properties"], indent=2)
+    system_content = profile_prompt.PROMPT.replace("{profile_schema}", profile_schema)
+    updated_messages=list(merge_message_runs(
+        messages=[SystemMessage(content=system_content)] + state["messages"][-3:-1]))
     # Create the Trustcall extractor for updating the user profile 
     profile_extractor = get_profile_extractor()
 

@@ -1,7 +1,7 @@
 from langchain_deepseek import ChatDeepSeek
 import os
 from dotenv import load_dotenv
-from schemas.schema import SearchParams, NewsSearchParams
+from schemas.schema import SearchParams, NewsSearchParams, TranscriptParams
 
 load_dotenv()
 USE_MOCK_DATA = os.getenv("USE_MOCK_DATA", "false").lower() == "true"
@@ -33,4 +33,11 @@ def parse_news_search_params(raw : dict | NewsSearchParams | None) -> NewsSearch
         return None
     if isinstance(raw, dict):
         return NewsSearchParams(**raw)
+    return raw
+
+def parse_transcript_params(raw : dict | TranscriptParams | None) -> TranscriptParams | None:
+    if raw is None:
+        return None
+    if isinstance(raw, dict):
+        return TranscriptParams(**raw)
     return raw

@@ -6,7 +6,7 @@ from langchain_core.tools import tool
 from pathlib import Path
 
 ytt_api = YouTubeTranscriptApi()
-MAX_SNIPPETS = 50
+MAX_SNIPPETS = 200
 
 # Based on https://github.com/jdepoix/youtube-transcript-api
 

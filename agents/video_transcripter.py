@@ -1,6 +1,6 @@
 from schemas.schema import State
 from prompts import transcript_prompt
-from agents.shared import get_model, parse_search_params
+from agents.shared import get_model, parse_transcript_params
 from langchain_core.runnables import RunnableConfig
 from langgraph.store.base import BaseStore
 from schemas.schema import TranscriptAnalysis
@@ -16,9 +16,9 @@ def transcripter(state : State, config : RunnableConfig, store : BaseStore):
         return {"transcripts": None}
     
     # Get the search parameters from state
-    raw_search_params = state["search_params"]
-    search_params = parse_search_params(raw_search_params)
-    assert search_params is not None, "search_params should not be None in search_agent" 
+    raw_transcript_params = state["transcript_params"]
+    search_params = parse_transcript_params(raw_transcript_params)
+    assert search_params is not None, "transcript_params should not be None in transcripter agent. Language needed." 
     
     language = search_params.language
     videos = state["videos"]

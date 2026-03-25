@@ -79,6 +79,15 @@ class UserProfile(BaseModel):
     channel_ratings: dict[str, Annotated[float, Field(ge=0, le=5)]] = {}
     video_ratings: dict[str, Annotated[float, Field(ge=0, le=5)]] = {}
 
+class TranscriptParams(BaseModel):
+    """Represents the parameters needed for fetching and analyzing a video transcript.
+    Attributes:
+        - video_id (str): The unique identifier of the video on Youtube for which the transcript needs to be fetched and analyzed.
+        - language (str): The language in which the transcript should be fetched, e.g., "en" for English, "es" for Spanish, "fr" for French. This is
+    """
+    video_id: str
+    language: str
+
 
 class TranscriptAnalysis(BaseModel):
     level_explanation: str
@@ -125,20 +134,34 @@ class VideoInfo(BaseModel):
 # This is going to be the state that is passed around in the orchestrator agent
 class State(MessagesState):
     search_params: Optional[SearchParams]
+    transcript_params: Optional[TranscriptParams]
     news_search_params: Optional[NewsSearchParams]
     videos: Optional[list[VideoInfo]]
     news: Optional[list[NewsArticle]]
-    video_id : Optional[str] # The video id of the video being processed in the current step, used for transcript and scoring agents
+
 
 class ExecuteIntent(BaseModel):
-    """Call this to execute the user's intent"""
+    """Call this to execute the user's intent with the required parameters."""
     intent: Literal[
-        "full_search",
+        "news_search",
+        "youtube_search",
         "transcript_only", 
-        "rerank_only",
         "profile_update",
         "out_of_scope"
-    ]
-    search_params: SearchParams | None = None
-    news_search_params : NewsSearchParams | None = None
-    video_id: str | None = None
+    ] = Field(..., description="The type of action to perform.")
+    
+    search_params: SearchParams | None = Field(
+        None, 
+        description="Required for 'youtube_search' AND 'transcript_only'. "
+                    "For 'transcript_only', use this to specify the target language and level."
+    )
+    
+    transcript_params: TranscriptParams | None = Field(
+        None,
+        description="Required for 'transcript_only'. Specifies the video ID and target language for transcript analysis."
+    )
+
+    news_search_params: NewsSearchParams | None = Field(
+        None,
+        description="Required for 'news_search'"
+     )

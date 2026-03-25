@@ -7,7 +7,7 @@ from typing import Literal
 from langgraph.graph import END, START
 
 
-def route_intent(state: State, config : RunnableConfig, store : BaseStore) -> Literal["__end__", "full_search_pipeline", "transcript_only_pipeline", "profile_update_agent"]:
+def route_intent(state: State, config : RunnableConfig, store : BaseStore) -> Literal["__end__", "youtube_search", "transcript_only_pipeline", "profile_update_agent", "news_search_agent"]:
     last_message = state["messages"][-1]
     if not isinstance(last_message, AIMessage):
         return "__end__"
@@ -17,17 +17,19 @@ def route_intent(state: State, config : RunnableConfig, store : BaseStore) -> Li
     intent = last_message.tool_calls[0]["args"]["intent"] 
     print(f"Intent: {intent}")
 
-    if intent == "full_search":
-        return "full_search_pipeline"
+    if intent == "youtube_search":
+        return "youtube_search"
     elif intent == "transcript_only":
         return "transcript_only_pipeline"
     elif intent == "profile_update":
         return "profile_update_agent"
+    elif intent == "news_search":
+        return "news_search_agent"
     else:
         return "__end__"
 
 
-def full_search_pipeline(state : State, config : RunnableConfig, store : BaseStore):
+def youtube_search_pipeline(state : State, config : RunnableConfig, store : BaseStore):
     state["videos"] = video_searcher.searcher(state, config, store)["videos"]
     state["videos"] = video_transcripter.transcripter(state, config, store)["videos"]
     state["videos"] = video_scorer.scorer(state, config, store)["videos"]
@@ -55,10 +57,18 @@ def full_search_pipeline(state : State, config : RunnableConfig, store : BaseSto
 
 
 def transcript_only_pipeline(state: State, config : RunnableConfig, store : BaseStore):
-    if not state["video_id"]:
-        raise ValueError("No video_id provided for transcript_only_pipeline")
+    last_message = state['messages'][-1]
+    if not isinstance(last_message, AIMessage):
+        raise ValueError("Expected AIMessage with tool calls")
+    tool_call_id = last_message.tool_calls[0]["id"]
     
-    video_id = state["video_id"]
+    if not state["transcript_params"]:
+        return {"videos": None,
+                "messages" : [{"role" : "tool", "content" : 
+                    f"No transcript parameters provided for transcript_only_pipeline. Please provide the video ID and target language and call the tool again.", "tool_call_id": tool_call_id}] 
+                }
+    
+    video_id = state["transcript_params"]["video_id"]
     # The transcript agent nesses a video to operate, just create a basic one
     state["videos"] = [VideoInfo(
         video_id=video_id,
@@ -73,13 +83,15 @@ def transcript_only_pipeline(state: State, config : RunnableConfig, store : Base
     if state["videos"] == None:
         return {"videos": {}}
 
-    last_message = state['messages'][-1]
-    if not isinstance(last_message, AIMessage):
-        raise ValueError("Expected AIMessage with tool calls")
-    tool_call_id = last_message.tool_calls[0]["id"]
+    v = state["videos"][0]
+    summary = f"""Transcript analysis for video {video_id}:\n
+    - Detected language: {v.detected_language}\n"
+    - Detected level: {v.detected_level}\n"
+    - Explanation: {v.level_explanation}\n"
+    """
 
     return {
         "videos": state["videos"],
-        "messages" : [{"role" : "tool", "content" : f"Detected level of {len(state['videos'])} videos.", "tool_call_id": tool_call_id}]
+        "messages" : [{"role" : "tool", "content" : summary, "tool_call_id": tool_call_id}]
     }
 
