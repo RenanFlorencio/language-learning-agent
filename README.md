@@ -8,7 +8,7 @@ Built with **LangGraph**, **LangChain**, **DeepSeek**, and **Gradio**.
 
 ## Architecture Diagram
 
-> [diagram](diagram.png)
+![Architecture Diagram](diagram.png)
 
 ---
 
